@@ -1,0 +1,4 @@
+quinn@sample.io
+rachel_456@company.com
+steve.jones@tech.net
+alice123@university.edu

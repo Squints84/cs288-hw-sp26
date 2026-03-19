@@ -1,0 +1,9 @@
+valid.email@domain.com
+@invalid.com
+user@
+123startswithnumber@domain.com
+user@domain
+user@.com
+special!char@domain.com
+user name@domain.com
+normal_user@valid.edu

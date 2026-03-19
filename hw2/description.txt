@@ -1,0 +1,14 @@
+1) first check if there are no arguments, where we print how the program works. then put all the arguments in an array and get
+its length. use that in a for loop for insertion sort, where we sort the arguments, use arithmetic expansion for a lot of it.
+then print at the end.
+
+2) check if theres 0 or 1 arguments to determine what directory to use. then a dfs function from slides and check do usual
+checks for if its a directory or sym link and then if its a file and such. then if it doesn't have any length call rm on it 
+and then add to counter. and then print like usual.
+
+3) similar process as 2 to be honest. more checks at the start on the arguments to see if there it's valid. then declaring
+arrays for file names and path names, and counters for files processed, dupes, and files deleted. similar implementation of dfs
+again, this time going through ls of the current path and then extracting paths with basename. another loop to go through our
+array of file names and check with current file path name, where we update our variable is_dupe. from there into a while loop 
+where the user is prompted whether or not to delete the file. then similar story as problem 2 with rm. and at the end we 
+print our stats.

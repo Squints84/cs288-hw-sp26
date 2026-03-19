@@ -1,0 +1,4 @@
+john.doe@example.com
+kate@sample.com
+admin@website.net
+laura_m@email.org

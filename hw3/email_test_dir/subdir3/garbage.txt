@@ -1,0 +1,6 @@
+not-an-email
+123@456
+@@@
+user@
+@domain.com
+....@domain.com

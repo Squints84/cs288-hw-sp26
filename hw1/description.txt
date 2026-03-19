@@ -1,0 +1,16 @@
+alexander diaz
+cs 288
+homework 1 description
+
+1) nothing crazy, using $RANDOM with a specific range to get between 1 and 50 inclusive and then using a while loop to go 
+through the attempts. some arithmetic expansion so i can change the number of attempts
+
+2) use read to take file name, check if file exists and is a usable file with -f and -e. then first: sort to get identical words
+together for uniq, then uniq -c to get frequency, and then another sort, this time using the fields to sort the count descending
+and the word alphabeteically. to get the number of unique words was piping the results of 
+
+3) take user input for directory, take ls -l output as directed by hw instructions, do first pass getting total size and number
+of items, using tr -s to get rid of extra spaces and then cut -d and -f to isolate what we want, i know we didn't use here
+strings in class, but it was just a faster way i found of doing what i wanted. use arithmetic expansion for avg calculation and 
+basically run back the same loop but just checking if each file is bigger than the avg size, and them printing results at the
+end

@@ -1,0 +1,8 @@
+no-at-sign.com
+user@@double.com
+@startswithat.com
+.startswith.dot@domain.com
+user@domain..doubledot
+user@-domain.com
+valid_before@domain.com
+-startwithdash@domain.com

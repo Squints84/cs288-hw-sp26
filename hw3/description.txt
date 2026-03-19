@@ -1,0 +1,5 @@
+1) first check if there's an argument and then if it's a directory and print corresponding messages. make a temp file to store data, and then use dfs like I've done before. if it's a directory, call function again, if it's a file that ends with .txt, then use grep with extended regex for email addresses and then appending it to the temp file. then just call function, sort -u to get unique and then smack a new file in there and remove the temp file.
+
+2) same usual checks, and then change ifs to read by line by line as seen in hint, and echo the line, pipe into grep regex for dates, and then big conditional check for each date type. in each date, echo and then cut with the delimiter and field for year, month, and day. after that smack it into the array. check if array is empty and then use print on array, sort, and then cut to 2nd field like asked for.
+
+3) prompt user and file name, and then make temp file. declare current year. similar while loop with ifs and then using cut and sed to extract name, dob, city. and then more processing for the birth year and age. sort temp file and then pipe into loop to print everything and then remove temp file.

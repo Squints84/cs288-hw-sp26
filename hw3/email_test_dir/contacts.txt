@@ -1,0 +1,5 @@
+alice123@university.edu
+bob-wilson@tech.io
+charlie_99@sample.net
+david.brown@email.com
+emma_2024@service.org

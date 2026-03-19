@@ -1,0 +1,4 @@
+partner_1@global.com
+partner_2@global.com
+vendor@supply.net
+contractor@services.io

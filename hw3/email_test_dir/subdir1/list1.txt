@@ -1,0 +1,5 @@
+frank@company.com
+george_123@university.edu
+helen.jones@tech.io
+jane_smith@company.org
+irene-lee@domain.net

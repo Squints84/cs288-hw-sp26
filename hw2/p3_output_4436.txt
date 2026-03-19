@@ -1,0 +1,9 @@
+Duplicate found
+Original: /home/alex/cs288-hw-sp26/hw2/p3_test_4436/file_a.txt
+Duplicate: /home/alex/cs288-hw-sp26/hw2/p3_test_4436/subdir/file_a.txt
+Do you want to remove /home/alex/cs288-hw-sp26/hw2/p3_test_4436/subdir/file_a.txt? (yes/no):
+File kept.
+Traversal complete.
+Files processed: 4
+Duplicate files found: 1
+Files deleted: 0

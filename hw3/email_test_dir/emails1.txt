@@ -1,0 +1,6 @@
+john.doe@example.com
+jane_smith@company.org
+admin@website.net
+john.doe@example.com
+test123@domain.co.uk
+user_name@sub-domain.com

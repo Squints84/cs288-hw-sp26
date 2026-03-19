@@ -1,0 +1,3 @@
+john.doe@example.com
+test123@domain.co.uk
+emma_2024@service.org
