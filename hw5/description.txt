@@ -1,0 +1,3 @@
+1) use the radix sort algo like was used in class, and then built upon that by splitting the positive and negative values into two separate arrays, and then combining them like discussed in class. used bitwise operations to change the values and then converted them back.
+
+2) similar process but with making more buckets. also making sure to shift by 4 for every pass because they're 32 bit integers. then it's a similar process as before with floats.
