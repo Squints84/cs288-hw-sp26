@@ -1,0 +1,5 @@
+1) made two helper functions: one to print the bytes from lsb to msb, and the other to print the character view of a byte. first printed the bytes stored in argv. then looped thru argv, casting the pointer as a char, and printing. then looping thru all the argument strings. took the first and last argument string addresses. then move to the null character at the end of argument. aligned the boundaries by rounding the start and end addresses to the nearest multiples of 8. then printing it all.
+
+2) while loop going through option as long as getopt != 1 and then a switch statement for each valid option. print optopt, optarg and optind and also the operands.
+
+3) count the number of environment entries so we can use in bubble sort loop. grab left and right parts of env variables and use strcmp to compare. put '=' back and then print the sorted env variables.
