@@ -37,6 +37,12 @@ int main(int argc, char *argv[])
 	// allocate memory
 	thread_array = malloc(nthreads * sizeof(pthread_t));
 	thread_ids = malloc(nthreads * sizeof(long));
+	array = malloc(length * sizeof(long));
+
+	// initialize array
+	for(int i = 0; i<length; i++){
+		array[i] = i;
+	}
 
 	// create threads
 	for(int i = 0; i<nthreads; i++){
@@ -46,6 +52,12 @@ int main(int argc, char *argv[])
 
 	// join threads
 	//
-	for 
+	for (int i = 0; i < nthreads; i++){
+		pthread_join(thread_array[i], NULL);
+	}
 
-
+	// print the result
+	for(int i = 0; i<length; i++){
+		printf("%4ld ", array[i]);
+	}
+}
