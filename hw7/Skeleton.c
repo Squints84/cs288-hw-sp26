@@ -271,20 +271,35 @@ int main(int argc,char **argv) {
 	int ret, i, pathlen=0, index[N-1];
 
 	solution_path=NULL;
+	if (argc != 17) {  /* program name + 16 tiles */
+		printf("Usage: ./puzzle index0 index1 ... index15\n");
+		exit(1);
+	}
+	for (int i = 1; i <= 16; i++) {
+		int val = atoi(argv[i]);
+		if (val < 0 || val > 15) {
+			printf("Error: all values must be between 0 and 15\n");
+			exit(1);
+		}
+	}
+	int seen[NxN] = {0};
+	for (int i = 1; i <= 16; i++) {
+    int val = atoi(argv[i]);
+    if (seen[val]) {
+        printf("Error: duplicate value %d\n", val);
+        exit(1);
+    }
+    seen[val] = 1;
+}
 	start=initialize(argv);	/* init initial and goal states */
 	open=start; 
 
 	iter=0; 
+	int solved = FALSE;
 	while (open!=NULL) {	/* Termination cond with a solution is tested in expand. */
 		copen=open;
 		open=open->next;  /* get the first node from open to expand */
 		
-		/* DEBUG: print the node (layout) in *copen 
-		 * Fix segmentation faults first. If the program cannot produce correct results,
-		 * select an initial layout close to the goal layout, and debug the program with it.
-		 * gdb is recommended. You may also print data on the screen. But this is not as
-		 * convenient as using gdb.
-		 * */
 
 		if(nodes_same(copen,goal)){ /* goal is found */
 			do{ /* trace back and add the nodes on the path to a list */
@@ -299,11 +314,10 @@ int main(int argc,char **argv) {
 				print_a_node(copen);
 				copen = copen->next;
 			}
+			solved = TRUE;
 			break;
 		}
-		expand(copen);       /* Find new successors */
-
-		/* DEBUG: print the layouts/nodes organized by succ_nodes[] */
+		expand(copen);  
 
 		for(i=0;i<4;i++){
 			filter(i,open);
@@ -311,20 +325,16 @@ int main(int argc,char **argv) {
 			update_fgh(i);
 		}
 
-		/* DEBUG: print the layouts/modes remaining in succ_nodes[] */
-
 		merge_to_open(); /* New open list */
-
-		/* DEBUG: print the layouts/nodes on the open list */
 
 		copen->next=closed;
 		closed=copen;		/* New closed */
-		/* print out something so that you know your 
-		 * program is still making progress 
-		 */
 		iter++;
 		if(iter %1000 == 0)
 			printf("iter %d\n", iter);
+	}
+	if (!solved) {
+		printf("No solution found\n");
 	}
 	return 0;
 } /* end of main */
