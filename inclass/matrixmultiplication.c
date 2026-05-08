@@ -80,6 +80,9 @@ int main(int argc, char **argv[])
         // send the result from worker processes to root process
         MPI_Send(&c, rows*N, MPI_DOUBLE, 0, FROM_WORKER, MPI_COMM_WORLD);
     }
+    }
+    MPI_Finalize();
+    return 0;
 }
 
         
