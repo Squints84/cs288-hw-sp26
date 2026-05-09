@@ -1,0 +1,3 @@
+1) basically just building off what we did in class. made a function for dot product calculations and then mutexes for control. take 2 command line arguments for the number of threads and the length. we malloc accordingly and then populate with random values. then create the threads and join them, destroy mutex and free the memory.
+
+2) we read file input and check every thing, malloc the bufffer. master splits the array across workers and then sends n and that worker's chunk. each worker receives n computes the chunk size malloc the chunk and then sends back to master. master recieves the arrays from each worker and then adds into gloval array. after collecting all gloval counts, we write the ouptut into a new buffer and close out.

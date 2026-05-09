@@ -26,12 +26,13 @@ int main(int argc, char **argv)
     }
 
     if (rank == 0) {
-        int *buf = NULL;
-        int *sorted = NULL;
+        int *buf;
+        int *sorted;
         int n;
         long file_bytes;
         int chunk_size;
         FILE *fp;
+        int global[COUNT_ARRAY];
 
         if (scanf("%4095s", path) != 1) {
             fprintf(stderr, "Failed to read file pathname.\n");
@@ -43,18 +44,20 @@ int main(int argc, char **argv)
             perror("fopen");
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
+
         if (fseek(fp, 0, SEEK_END) != 0) {
             perror("fseek");
             fclose(fp);
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
         file_bytes = ftell(fp);
-        if (file_bytes < 0 || (file_bytes % (int)sizeof(int)) != 0) {
+        if (file_bytes < 0 || (file_bytes % sizeof(int)) != 0) {
             fprintf(stderr, "Invalid file size.\n");
             fclose(fp);
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
-        n = (int)(file_bytes / (int)sizeof(int));
+        n = (int)(file_bytes / sizeof(int));
+
         if (fseek(fp, 0, SEEK_SET) != 0) {
             perror("fseek");
             fclose(fp);
@@ -67,10 +70,11 @@ int main(int argc, char **argv)
             fclose(fp);
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
+
         if (fread(buf, sizeof(int), (size_t)n, fp) != (size_t)n) {
             fprintf(stderr, "fread failed.\n");
-            free(buf);
             fclose(fp);
+            free(buf);
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
         fclose(fp);
@@ -83,54 +87,54 @@ int main(int argc, char **argv)
                      TAG_CHUNK, MPI_COMM_WORLD);
         }
 
-        {
-            int global[COUNT_ARRAY];
+        for (int v = 0; v < COUNT_ARRAY; v++) {
+            global[v] = 0;
+        }
+
+        for (int source = 1; source <= num_workers; source++) {
+            int local[COUNT_ARRAY];
+            MPI_Recv(local, COUNT_ARRAY, MPI_INT, source, TAG_COUNT,
+                     MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             for (int v = 0; v < COUNT_ARRAY; v++) {
-                global[v] = 0;
+                global[v] += local[v];
             }
+        }
 
-            for (int source = 1; source <= num_workers; source++) {
-                int local[COUNT_ARRAY];
-                MPI_Recv(local, COUNT_ARRAY, MPI_INT, source, TAG_COUNT,
-                         MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-                for (int v = 0; v < COUNT_ARRAY; v++) {
-                    global[v] += local[v];
+        sorted = (int *)malloc((size_t)n * sizeof(int));
+        if (!sorted) {
+            fprintf(stderr, "malloc failed.\n");
+            free(buf);
+            MPI_Abort(MPI_COMM_WORLD, 1);
+        }
+
+        {
+            int pos = 0;
+            for (int v = 0; v < COUNT_ARRAY; v++) {
+                for (int k = 0; k < global[v]; k++) {
+                    sorted[pos++] = v;
                 }
             }
+        }
 
-            sorted = (int *)malloc((size_t)n * sizeof(int));
-            if (!sorted) {
-                fprintf(stderr, "malloc failed.\n");
-                free(buf);
-                MPI_Abort(MPI_COMM_WORLD, 1);
-            }
-            {
-                int pos = 0;
-                for (int v = 0; v < COUNT_ARRAY; v++) {
-                    for (int k = 0; k < global[v]; k++) {
-                        sorted[pos++] = v;
-                    }
-                }
-            }
+        fp = fopen(path, "wb");
+        if (!fp) {
+            perror("fopen");
+            free(buf);
+            free(sorted);
+            MPI_Abort(MPI_COMM_WORLD, 1);
+        }
 
-            fp = fopen(path, "wb");
-            if (!fp) {
-                perror("fopen");
-                free(buf);
-                free(sorted);
-                MPI_Abort(MPI_COMM_WORLD, 1);
-            }
-            if (fwrite(sorted, sizeof(int), (size_t)n, fp) != (size_t)n) {
-                fprintf(stderr, "fwrite failed.\n");
-                fclose(fp);
-                free(buf);
-                free(sorted);
-                MPI_Abort(MPI_COMM_WORLD, 1);
-            }
+        if (fwrite(sorted, sizeof(int), (size_t)n, fp) != (size_t)n) {
+            fprintf(stderr, "fwrite failed.\n");
             fclose(fp);
             free(buf);
             free(sorted);
+            MPI_Abort(MPI_COMM_WORLD, 1);
         }
+
+        fclose(fp);
+        free(buf);
+        free(sorted);
     } else {
         int n;
         int chunk_size;
@@ -157,6 +161,7 @@ int main(int argc, char **argv)
         }
 
         MPI_Send(local, COUNT_ARRAY, MPI_INT, 0, TAG_COUNT, MPI_COMM_WORLD);
+
         free(chunk);
     }
 
